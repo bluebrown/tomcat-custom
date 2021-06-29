@@ -15,7 +15,7 @@ Under webapp/errors custom error pages can be placed. By default a generic error
     <error-page>
     <!-- custom error per code -->
     <error-code>401</error-code>
-    <location>/error/4041.html</location>
+    <location>/error/401.html</location>
 </error-page>
 </web-app>
 ```
@@ -44,6 +44,6 @@ Automatic deployment and unpacking of war files has been disabled.
 
 ## Health Checks
 
-There are two files Under webapp/health/. `ready` and `alive`.
+There are two files Under webapp/health/. `/ready` and `/alive`.
 
 The application developer should still create their own liveliness and readiness endpoints as this only reflects if tomcat is generally still running and able to serve content.
