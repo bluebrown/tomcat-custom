@@ -1,16 +1,29 @@
 # Tomcat Custom 10
 
+## Building a User Image
+
+```Dockerfile
+FROM maven as builder
+
+WORKDIR /maven
+RUN git clone https://github.com/bluebrown/example-maven-war-app .
+RUN mvn compile war:exploded
+
+FROM bluebrown/tomcat-custom
+COPY --from=builder /maven/src/webapp webapps/app
+```
+
 ## Run
 
 ```shell
 docker run \
   --rm \
-  --name tomcat \
-  --port 80:8080 \
+  --name java-app \
+    -p 80:8080 \
   --log-driver local \
   --log-opt mode=non-blocking \
   --log-opt max-buffer-size=4m \
-  tomcat-custom:10
+  java-app
 ```
 
 ## web.xml
@@ -55,7 +68,7 @@ You can configure specific error pages by using `errorCode.n` i.e. `errorCode.40
 
 ## logging.properties
 
-Both logger, `catalina` and `localhost` have been configured to drop the oldest message in the buffer if its full before the logger hand the chance to write. Additionally the buffer size has been reduced to 250 messages so it would drop more frequently but not hold as much data in memory.
+All logger, 'console`,`catalina` and `localhost` have been configured to drop the oldest message in the buffer if its full before the logger hand the chance to write. Additionally the buffer size has been reduced to 250 messages so it would drop more frequently but not hold as much data in memory.
 
 These settings are in `logging.properties`.
 

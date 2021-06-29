@@ -1,10 +1,3 @@
-FROM maven as builder
-
-WORKDIR /maven
-RUN git clone https://github.com/bluebrown/example-maven-war-app .
-RUN mvn compile war:exploded
-
-
 FROM tomcat:10
 
 ARG UID=8080
@@ -29,11 +22,8 @@ HEALTHCHECK \
     --retries=3 \
     CMD curl --fail 'localhost:8080/health/alive' || exit 1
 
-COPY --from=builder /maven/src/webapp webapps/app
+COPY --chown="$UID:$UID" entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
 USER $USER
-ENV JAVA_OPTS="\
-    -Djava.security.egd=file:/dev/./urandom \
-    -XX:ParallelGCThreads=2 \
-    -XX:MaxRAM=4G \
-    -XX:GCTimeRatio=4 \
-    -XX:AdaptiveSizePolicyWeight=90"
+CMD ["catalina.sh", "run"]
