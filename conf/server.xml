@@ -147,6 +147,15 @@
                prefix="localhost_access_log" suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
+        <Valve 
+          className="org.apache.catalina.valves.ErrorReportValve"
+          errorCode.0="errors/index.html" 
+          errorCode.404="errors/404.html" 
+          showReport="false"
+          showServerInfo="false"
+        />
+
+
       </Host>
     </Engine>
   </Service>

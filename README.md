@@ -10,21 +10,19 @@ docker run --rm --name tomcat -p 80:8080 --log-driver local --log-opt mode=non-b
 
 ### Custom Error Page
 
-Under webapp/errors custom error pages can be placed. By default a generic error is served from the index.html deployed there.
+Errors pages have been *masked* by using [ErrorReportValve](https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Error_Report_Valve).
 
 ```xml
-<web-app ...>
-    <error-page>
-        <!-- catch all  -->
-        <location>/error/</location>
-    </error-page>
-    <error-page>
-    <!-- custom error per code -->
-    <error-code>401</error-code>
-    <location>/error/401.html</location>
-</error-page>
-</web-app>
+<Valve 
+    className="org.apache.catalina.valves.ErrorReportValve"
+    errorCode.0="errors/index.html" 
+    errorCode.404="errors/404.html" 
+    showReport="false"
+    showServerInfo="false"
+  />
 ```
+
+You can configure specific error pages by using `errorCode.n` i.e. `errorCode.404`.
 
 ### Settings
 
