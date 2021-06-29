@@ -27,7 +27,7 @@ HEALTHCHECK \
     --timeout=15s \
     --start-period=120s \
     --retries=3 \
-    CMD curl --fail 'localhost:8080/alive' || exit 1
+    CMD curl --fail 'localhost:8080/health/alive' || exit 1
 
 COPY --from=builder /maven/src/webapp webapps/app
 USER $USER
