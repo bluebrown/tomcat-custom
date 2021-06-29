@@ -4764,7 +4764,7 @@
     </welcome-file-list>
      
      <error-page>
-        <location>/error.html</location>
+        <location>/error/</location>
     </error-page>
 
 </web-app>
