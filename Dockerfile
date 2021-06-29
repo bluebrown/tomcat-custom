@@ -1,4 +1,5 @@
-FROM tomcat:10
+ARG VERSION="10"
+FROM tomcat:${VERSION}
 
 ARG UID=8080
 ARG USER="tomcat"
