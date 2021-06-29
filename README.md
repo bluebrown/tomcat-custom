@@ -8,22 +8,6 @@ docker run --rm --name tomcat -p 80:8080 --log-driver local --log-opt mode=non-b
 
 ## web.xml
 
-### Custom Error Page
-
-Errors pages have been *masked* by using [ErrorReportValve](https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Error_Report_Valve).
-
-```xml
-<Valve 
-    className="org.apache.catalina.valves.ErrorReportValve"
-    errorCode.0="errors/index.html" 
-    errorCode.404="errors/404.html" 
-    showReport="false"
-    showServerInfo="false"
-  />
-```
-
-You can configure specific error pages by using `errorCode.n` i.e. `errorCode.404`.
-
 ### Settings
 
 The following servlet settings have been made over the defaults. `ctrl-f` for the right place in the file.
@@ -46,13 +30,23 @@ Automatic deployment and unpacking of war files has been disabled.
     unpackWARs="false" autoDeploy="false">
 ```
 
-## Health Checks
+### Custom Error Page
 
-There are two files Under webapp/health/. `/ready` and `/alive`.
+Errors pages have been *masked* by using [ErrorReportValve](https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Error_Report_Valve).
 
-The application developer should still create their own liveliness and readiness endpoints as this only reflects if tomcat is generally still running and able to serve content.
+```xml
+<Valve 
+    className="org.apache.catalina.valves.ErrorReportValve"
+    errorCode.0="errors/index.html" 
+    errorCode.404="errors/404.html" 
+    showReport="false"
+    showServerInfo="false"
+  />
+```
 
-## Logging
+You can configure specific error pages by using `errorCode.n` i.e. `errorCode.404`.
+
+## logging.properties
 
 Both logger, `catalina` and `localhost` have been configured to drop the oldest message in the buffer if its full before the logger hand the chance to write. Additionally the buffer size has been reduced to 250 messages so it would drop more frequently but not hold as much data in memory.
 
@@ -66,3 +60,9 @@ AsyncFileHandler.AsyncMaxRecordCount = 250
 ```
 
 See [System Properties](https://tomcat.apache.org/tomcat-8.5-doc/config/systemprops.html#Logging)
+
+## Health Checks
+
+There are two files Under webapp/health/. `/ready` and `/alive`.
+
+The application developer should still create their own liveliness and readiness endpoints as this only reflects if tomcat is generally still running and able to serve content.
