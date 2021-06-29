@@ -13,6 +13,19 @@ FROM bluebrown/tomcat-custom
 COPY --from=builder /maven/src/webapp webapps/app
 ```
 
+### Environment
+
+Variable            | Default  | Description
+--------------------|:--------:|---------------------------------------
+JVM_GC_THREADS      |       2  | Number of Threads for Garbage Collector
+JVM_MAX_RAM         |      2G  | Max RAM
+JVM_GC_TIME_RATIO   |       4  | Useful for resizing heap
+JVM_GC_ADAPT_WEIGHT |       90 | Useful for resizing heap
+JAVA_OPTS           |          | set additional java options
+CATALINA_OPTS       | computed | overwrites everything if set manually
+
+[Learn more about jvm configuration](https://developers.redhat.com/blog/2017/04/04/openjdk-and-containers).
+
 ## Run
 
 ```shell
