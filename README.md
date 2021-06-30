@@ -17,7 +17,6 @@ docker build --tag java-app \
   --build-arg GIT_REPO="https://github.com/bluebrown/example-maven-war-app" \
   --build-arg BUILD_TARGET="/maven/target/demo" \
   --build-arg BUILD_CONTEXT="ROOT" \
-  --build-arg BUILD_CONTEXT="ROOT" \
   .
 ```
 
