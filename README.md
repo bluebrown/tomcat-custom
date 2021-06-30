@@ -16,7 +16,7 @@ docker build \
   --build-arg USER="tomcat" \
   --build-arg GIT_REPO="https://github.com/bluebrown/example-maven-war-app" \
   --build-arg GIT_BRANCH="main" \
-  --build-arg BUILD_TARGET="/maven/target/demo" \
+  --build-arg BUILD_TARGET="target/demo" \
   --build-arg BUILD_CONTEXT="ROOT" \
   --label org.opencontainers.image.title="java-app" \
   --label org.opencontainers.image.description="just for fun" \
@@ -42,7 +42,6 @@ docker run \
   --log-opt mode=non-blocking \
   --log-opt max-buffer-size=4m \
   --env JAVA_OPTS="$JAVA_OPTS" \
-  
   java-app
 ```
 
