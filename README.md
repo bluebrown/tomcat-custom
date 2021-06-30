@@ -1,23 +1,25 @@
-# Tomcat Custom 10
+# Building a Java App with the Docker Tomcat Image
 
-## Building a User Image
-
-```Dockerfile
-FROM maven as builder
-
-WORKDIR /maven
-RUN git clone https://github.com/bluebrown/example-maven-war-app .
-RUN mvn compile war:exploded
-
-FROM bluebrown/tomcat10-custom:1.1
-COPY --from=builder /maven/src/webapp webapps/app
-```
-
-### Environment
+## Environment
 
 Set java option with 'JAVA_OPTS'.
 
 [Learn more about jvm configuration](https://developers.redhat.com/blog/2017/04/04/openjdk-and-containers).
+
+## Build
+
+When some arguments are possible. Below are the defaults values.
+
+```shell
+docker build --tag java-app \
+  --build-arg UID="8080" \
+  --build-arg USER="tomcat" \
+  --build-arg GIT_REPO="https://github.com/bluebrown/example-maven-war-app" \
+  --build-arg BUILD_TARGET="/maven/target/demo" \
+  --build-arg BUILD_CONTEXT="ROOT" \
+  --build-arg BUILD_CONTEXT="ROOT" \
+  .
+```
 
 ## Run
 
@@ -34,7 +36,8 @@ docker run \
   --log-driver local \
   --log-opt mode=non-blocking \
   --log-opt max-buffer-size=4m \
-  --env JAVA_OPTS="$JAVA_OPTS"
+  --env JAVA_OPTS="$JAVA_OPTS" \
+  
   java-app
 ```
 
@@ -55,7 +58,7 @@ trimSpaces              | true
 
 ## server.xml
 
-Automatic deployment and unpacking of war files has been disabled.
+Automatic deployment and unpacking of war files has been disabled. We can put the already exploded war file in tomcats webapps folder. That will speed up the start of the container and also lower the attack surface.
 
 ```xml
 <Host name="localhost"  appBase="webapps" 
@@ -92,9 +95,3 @@ AsyncFileHandler.AsyncMaxRecordCount = 250
 ```
 
 See [System Properties](https://tomcat.apache.org/tomcat-8.5-doc/config/systemprops.html#Logging)
-
-## Health Checks
-
-There are two files Under `${HOST}/health`. `/ready` and `/alive`.
-
-The application developer should still create their own liveliness and readiness endpoints as this only reflects if tomcat is generally still running and able to serve content.
