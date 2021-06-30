@@ -2,21 +2,27 @@
 
 ## Environment
 
-Set java option with 'JAVA_OPTS'.
+Set java option with `JAVA_OPTS`.
 
 [Learn more about jvm configuration](https://developers.redhat.com/blog/2017/04/04/openjdk-and-containers).
 
 ## Build
 
-Build the image by supplying build args or modifying the docker file accordingly. Below are the default build args.
+Build the image by supplying build args or modifying the docker file to copy and **explode** war archive. Below is and example using all possible `build-args` with their default value.
 
 ```shell
-docker build --tag java-app \
+docker build \
   --build-arg UID="8080" \
   --build-arg USER="tomcat" \
   --build-arg GIT_REPO="https://github.com/bluebrown/example-maven-war-app" \
+  --build-arg GIT_BRANCH="main" \
   --build-arg BUILD_TARGET="/maven/target/demo" \
   --build-arg BUILD_CONTEXT="ROOT" \
+  --label org.opencontainers.image.title="java-app" \
+  --label org.opencontainers.image.description="just for fun" \
+  --label org.opencontainers.image.authors="nico braun" \
+  --label org.opencontainers.image.licenses="(BSD-1-Clause)" \
+  --tag java-app \
   .
 ```
 

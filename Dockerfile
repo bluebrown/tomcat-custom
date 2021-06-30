@@ -2,7 +2,8 @@ FROM maven as builder
 
 WORKDIR /maven
 ARG GIT_REPO="https://github.com/bluebrown/example-maven-war-app"
-RUN git clone "$GIT_REPO" .
+ARG GIT_BRANCH="main"
+RUN git clone --single-branch --branch "$GIT_BRANCH" "$GIT_REPO" .
 RUN mvn compile war:exploded 
 
 
