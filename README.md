@@ -8,7 +8,7 @@ Set java option with 'JAVA_OPTS'.
 
 ## Build
 
-When some arguments are possible. Below are the defaults values.
+Build the image by supplying build args or modifying the docker file accordingly. Below are the default build args.
 
 ```shell
 docker build --tag java-app \
